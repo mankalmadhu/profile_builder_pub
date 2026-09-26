@@ -447,7 +447,15 @@
           "GitHub Pages",
           "Google Play Console",
           "React Native (legacy)"
-        ]
+        ],
+        "links": {
+          "repo": "https://github.com/mankalmadhu/Nityanushtaana",
+          "web": "https://mankalmadhu.github.io/Nityanushtaana/",
+          "play_store": [
+            "Rig Sandhya: https://play.google.com/store/apps/details?id=vedic.rigveda.sandhyavandana",
+            "Nitya Puja: https://play.google.com/store/apps/details?id=vedic.nityanushtana.nityapuja"
+          ]
+        }
       }
     ],
     "edu": [
@@ -465,7 +473,11 @@
           "Kubernetes",
           "YAML-driven config",
           "Kafka-ML (open-source FL framework)"
-        ]
+        ],
+        "links": {
+          "repo": "https://github.com/mankalmadhu/kafkaml_mtechproj",
+          "report": "https://github.com/mankalmadhu/kafkaml_mtechproj_report"
+        }
       },
       {
         "id": "cds-capstone-twitter-sentiment-analysis",
@@ -482,7 +494,10 @@
           "Pandas",
           "NumPy",
           "Streamlit"
-        ]
+        ],
+        "links": {
+          "repo": "https://github.com/mankalmadhu/cds-capstone"
+        }
       }
     ]
   },
