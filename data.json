@@ -54,24 +54,24 @@
     "case_studies": [
       {
         "id": "finsync-ledger",
-        "title": "Building FinSync: A Core Banking Ledger From Scratch",
+        "title": "Building a Core Banking Ledger From Scratch (I Named It FinSync)",
         "project_ids": [
           "finsync-core-banking-component"
         ],
-        "problem": "GXS Bank's Loan Channeling business needed a resilient, high-throughput ledger core. Extending the bank's existing vendor core banking platform - licensed primarily for Deposits - to cover Loan Channeling as well was cost-prohibitive for what the lending platform actually needed, making an in-house ledger the more viable path.\n",
-        "approach": "I designed and built FinSync from scratch: a ledger platform that cleanly separates core ledger state (accounts, balance partitions, atomic posting-instruction batches) from product-specific business rules, which live in a companion policy service. The system is fully event-driven, using Kafka for account initialization and posting approvals, and relies on a set of data-integrity patterns I designed specifically for this scale: a serialized single-writer update pattern to eliminate lock contention, atomic multi-statement transactions, an outbox/relay pattern for reliable event publication, and per-scheme Kafka partitioning to scale ingestion horizontally, backed by a resilience layer of context-aware blocking retries with dead-letter-queue fallback.\n",
-        "outcome": "FinSync now powers the entire rebuilt Loan Channeling platform, processing ~800K transactions/day and projected to reach ~2M/day by Q4 2026, after a full migration of every partner off the legacy system.\n"
+        "problem": "GXS Bank's lending business needed a resilient, high-throughput ledger core. Extending the bank's existing vendor core banking platform - licensed primarily for deposit accounts - to also cover lending was cost-prohibitive for what the lending platform actually needed, making an in-house ledger the more viable path.\n",
+        "approach": "I designed and built FinSync from scratch: a ledger platform that cleanly separates core ledger state (accounts, balance partitions, atomic posting-instruction batches) from product-specific business rules, which live in a companion policy service. The system is fully event-driven, using Kafka for account initialization and posting approvals, and relies on a set of data-integrity patterns I designed specifically for this scale: a serialized single-writer update pattern to eliminate lock contention, atomic multi-statement transactions, an outbox/relay pattern for reliable event publication, and partitioning message queues by loan product type to scale ingestion horizontally, backed by a resilience layer of context-aware blocking retries with dead-letter-queue fallback.\n",
+        "outcome": "FinSync now powers the entire rebuilt lending platform, processing ~800K transactions/day and projected to reach ~2M/day by Q4 2026, after a full migration of every partner off the legacy system.\n"
       },
       {
         "id": "deposits-reliability",
-        "title": "Engineering Reliability Into Deposits Account Lifecycles",
+        "title": "Making Bank Account Opening and Closing More Reliable",
         "project_ids": [
           "deposits-account-lifecycle-scaling",
           "account-closure-workflow-redesign"
         ],
-        "problem": "As GXS Bank's deposit product line was set to expand beyond CASA into pockets and time-deposit products, account creation on the deposits core microservice was synchronous even though the underlying core banking platform's account and plan entities were asynchronous - a mismatch already generating incidents that would only get worse as more products launched. Account closures were a further source of repeated incidents: the core banking platform emitted multiple asynchronous closure events for the same request without consistent context, and closures would intermittently fail during end-of-day batch processing due to stale interest-accrual balances.\n",
-        "approach": "I helped the team introduce a workflow engine, already proven at sister digibanks, to bridge the sync/async gap in account creation - then went further: the existing internal retry library only worked with internal DTOs, so I designed and built a retry engine library that works with third-party vendor DTOs from the core banking platform, with configurable retries. For closures, I redesigned the workflow around Kafka and SQS to reliably correlate and retry the same closure request across multiple uncorrelated vendor events, and added a delayed-closure mechanism that parks closure requests on SQS during the EOD window to avoid transient balance-timing failures.\n",
-        "outcome": "Both initiatives were first-of-their-kind across all three sister digibanks at the time, and together brought production incidents from account creation and closures down close to zero - foundational reliability work that let the deposits platform scale to new products with confidence.\n"
+        "problem": "As GXS Bank's deposit product line was set to expand beyond its core savings account product into pockets and time-deposit products, account creation on the deposits core microservice was synchronous even though the underlying core banking platform's account and plan entities were asynchronous - a mismatch already generating incidents that would only get worse as more products launched. Account closures were a further source of repeated incidents: the core banking platform emitted multiple asynchronous closure events for the same request without consistent context, and closures would intermittently fail during end-of-day batch processing due to stale interest-accrual balances.\n",
+        "approach": "I helped the team introduce a process-orchestration tool, already proven at sister digital banks, to bridge the sync/async gap in account creation - then went further: the existing internal retry library only worked with internal DTOs, so I designed and built a retry engine library that works with third-party vendor DTOs from the core banking platform, with configurable retries. For closures, I redesigned the workflow around Kafka and SQS to reliably correlate and retry the same closure request across multiple uncorrelated vendor events, and added a delayed-closure mechanism that parks closure requests on a queue during the end-of-day processing window to avoid transient balance-timing failures.\n",
+        "outcome": "Both initiatives were first-of-their-kind across all three sister digital banks at the time, and together brought production incidents from account creation and closures down close to zero - foundational reliability work that let the deposits platform scale to new products with confidence.\n"
       },
       {
         "id": "amadeus-evolution",
@@ -377,8 +377,8 @@
         "id": "deposits-account-lifecycle-scaling",
         "title": "Deposits Account Lifecycle Scaling & Custom Retryable Kafka Stream",
         "date_range": "2023",
-        "client_context": "Digibank platform for SuperBank (Indonesia), Deposits team",
-        "description": "Led an initiative in the Deposits team to scale the account lifecycle architecture ahead of a planned expansion beyond the existing CASA product to several new deposit products (pocket-style sub-accounts, fixed/time-deposit products).",
+        "client_context": "Digital-bank platform for SuperBank (Indonesia), Deposits team",
+        "description": "Led an initiative in the Deposits team to scale the account lifecycle architecture ahead of a planned expansion beyond the existing savings-account product to several new deposit products (pocket-style sub-accounts, fixed/time-deposit products).",
         "technologies": [
           "Golang",
           "MySQL",
@@ -390,9 +390,9 @@
       },
       {
         "id": "account-closure-workflow-redesign",
-        "title": "Account Closure Workflow Redesign (Reliability & EOD Balance Handling)",
+        "title": "Account Closure Workflow Redesign (Reliability & End-of-Day Balance Handling)",
         "date_range": "2024",
-        "client_context": "Digibank platform for SuperBank (Indonesia), Deposits team",
+        "client_context": "Digital-bank platform for SuperBank (Indonesia), Deposits team",
         "description": "Redesigned the account closure workflow on the Deposits service, which had been a major source of production incidents, along two dimensions.",
         "technologies": [
           "Golang",
@@ -420,8 +420,8 @@
         "id": "finsync-core-banking-component",
         "title": "FinSync: In-House Core Banking / Ledger Platform",
         "date_range": "2024",
-        "client_context": "GXS Bank (post Grab->GXS entity transition) - SuperBank Indonesia digibank platform, Loan Channeling domain",
-        "description": "Designed and implemented FinSync (plus its companion policy service), an in-house core banking / ledger platform functionally equivalent to the vendor core banking platform used for Deposits, built specifically to serve the Loan Channeling domain.",
+        "client_context": "GXS Bank (post Grab->GXS entity transition) - SuperBank Indonesia digital-bank platform, lending business",
+        "description": "Designed and implemented FinSync (plus its companion policy service), an in-house core banking / ledger platform functionally equivalent to the vendor core banking platform used for deposit accounts, built specifically to serve the lending business.",
         "technologies": [
           "Golang",
           "AWS (EKS, RDS, SQS, ElastiCache/Redis)",
