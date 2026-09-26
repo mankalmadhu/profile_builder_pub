@@ -60,7 +60,7 @@
         ],
         "problem": "GXS Bank's Loan Channeling business needed a resilient, high-throughput ledger core. Extending the bank's existing vendor core banking platform - licensed primarily for Deposits - to cover Loan Channeling as well was cost-prohibitive for what the lending platform actually needed, making an in-house ledger the more viable path.\n",
         "approach": "I designed and built FinSync from scratch: a ledger platform that cleanly separates core ledger state (accounts, balance partitions, atomic posting-instruction batches) from product-specific business rules, which live in a companion policy service. The system is fully event-driven, using Kafka for account initialization and posting approvals, and relies on a set of data-integrity patterns I designed specifically for this scale: a serialized single-writer update pattern to eliminate lock contention, atomic multi-statement transactions, an outbox/relay pattern for reliable event publication, and per-scheme Kafka partitioning to scale ingestion horizontally, backed by a resilience layer of context-aware blocking retries with dead-letter-queue fallback.\n",
-        "outcome": "FinSync now powers the entire rebuilt Loan Channeling platform, processing ~800K transactions/day and projected to reach ~2M/day next quarter, after a full migration of every partner off the legacy system.\n"
+        "outcome": "FinSync now powers the entire rebuilt Loan Channeling platform, processing ~800K transactions/day and projected to reach ~2M/day by Q4 2026, after a full migration of every partner off the legacy system.\n"
       },
       {
         "id": "deposits-reliability",
