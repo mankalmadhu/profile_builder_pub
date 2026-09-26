@@ -1,0 +1,850 @@
+{
+  "personal_details": {
+    "name": "Madhu Ahobalan",
+    "title_current": "Lead Engineer",
+    "location": {
+      "current_city": "Bengaluru",
+      "current_country": "India"
+    },
+    "contact": {
+      "email": "mankalmadhu@gmail.com",
+      "linkedin": "https://www.linkedin.com/in/madhu-ahobalan",
+      "github": null
+    },
+    "geographies_worked": [
+      {
+        "country": "India",
+        "mode": "onsite"
+      },
+      {
+        "country": "France",
+        "mode": "onsite"
+      },
+      {
+        "country": "Singapore",
+        "mode": "onsite"
+      },
+      {
+        "country": "United States",
+        "mode": "onsite"
+      },
+      {
+        "country": "Indonesia",
+        "mode": "remote",
+        "note": "SuperBank Indonesia digibank team, 4+ yrs"
+      }
+    ]
+  },
+  "site_narrative": {
+    "tagline": "20+ years of software engineering experience. Over the last 10-11 years specifically, I've worked on high-throughput, latency-sensitive distributed systems at different scales and constraints - from microsecond-level C++ engineering, to reliable distributed event handling, to a banking ledger built from scratch that has to be fast and provably correct. I've done this hands-on across India, France, and Singapore, working directly with different teams, customers, and stakeholders in each - which has shaped an ability to adapt quickly to different team cultures and ways of working.\n",
+    "pillars": [
+      {
+        "title": "High-Throughput, Latency-Critical Backend Systems",
+        "text": "I've worked at multiple points on the throughput/latency spectrum - from a microsecond-level C++ component under a ~2ms budget, to distributed event handlers processing hundreds of thousands and then millions of messages a day, to a banking ledger processing hundreds of thousands of transactions daily. Each of these had a different bottleneck, and each needed a different engineering approach.\n"
+      },
+      {
+        "title": "Distributed Backend Systems Reliability",
+        "text": "I specialize in finding and eliminating systemic reliability gaps in event-driven, multi-service systems - particularly around asynchronous, vendor-originated events that don't fit neatly into existing retry or correlation patterns. I've done this for hotel-booking traffic and for banking core-systems alike.\n"
+      },
+      {
+        "title": "Backend Platform & Product Architecture",
+        "text": "I architect end-to-end platforms for new products - travel/hospitality and financial alike - from initial design through full-scale migration, and drive cross-team engineering standards beyond my own team's boundaries.\n"
+      }
+    ],
+    "case_studies": [
+      {
+        "id": "finsync-ledger",
+        "title": "Building FinSync: A Core Banking Ledger From Scratch",
+        "project_ids": [
+          "finsync-core-banking-component"
+        ],
+        "problem": "GXS Bank's Loan Channeling business needed a resilient, high-throughput ledger core. Extending the bank's existing vendor core banking platform - licensed primarily for Deposits - to cover Loan Channeling as well was cost-prohibitive for what the lending platform actually needed, making an in-house ledger the more viable path.\n",
+        "approach": "I designed and built FinSync from scratch: a ledger platform that cleanly separates core ledger state (accounts, balance partitions, atomic posting-instruction batches) from product-specific business rules, which live in a companion policy service. The system is fully event-driven, using Kafka for account initialization and posting approvals, and relies on a set of data-integrity patterns I designed specifically for this scale: a serialized single-writer update pattern to eliminate lock contention, atomic multi-statement transactions, an outbox/relay pattern for reliable event publication, and per-scheme Kafka partitioning to scale ingestion horizontally, backed by a resilience layer of context-aware blocking retries with dead-letter-queue fallback.\n",
+        "outcome": "FinSync now powers the entire rebuilt Loan Channeling platform, processing ~800K transactions/day and projected to reach ~2M/day next quarter, after a full migration of every partner off the legacy system.\n"
+      },
+      {
+        "id": "deposits-reliability",
+        "title": "Engineering Reliability Into Deposits Account Lifecycles",
+        "project_ids": [
+          "deposits-account-lifecycle-scaling",
+          "account-closure-workflow-redesign"
+        ],
+        "problem": "As GXS Bank's deposit product line was set to expand beyond CASA into pockets and time-deposit products, account creation on the deposits core microservice was synchronous even though the underlying core banking platform's account and plan entities were asynchronous - a mismatch already generating incidents that would only get worse as more products launched. Account closures were a further source of repeated incidents: the core banking platform emitted multiple asynchronous closure events for the same request without consistent context, and closures would intermittently fail during end-of-day batch processing due to stale interest-accrual balances.\n",
+        "approach": "I helped the team introduce a workflow engine, already proven at sister digibanks, to bridge the sync/async gap in account creation - then went further: the existing internal retry library only worked with internal DTOs, so I designed and built a retry engine library that works with third-party vendor DTOs from the core banking platform, with configurable retries. For closures, I redesigned the workflow around Kafka and SQS to reliably correlate and retry the same closure request across multiple uncorrelated vendor events, and added a delayed-closure mechanism that parks closure requests on SQS during the EOD window to avoid transient balance-timing failures.\n",
+        "outcome": "Both initiatives were first-of-their-kind across all three sister digibanks at the time, and together brought production incidents from account creation and closures down close to zero - foundational reliability work that let the deposits platform scale to new products with confidence.\n"
+      },
+      {
+        "id": "amadeus-evolution",
+        "title": "Three Stages of Growth at Amadeus (2015-2022)",
+        "project_ids": [
+          "hotel-it-latency-critical-platform",
+          "hotel-it-event-handler-queues",
+          "hotel-it-cross-platform-message-scaling"
+        ],
+        "problem": "Across three roles at a previous company, Amadeus, on its core hotel IT platform, I took on progressively larger classes of problems: first a microsecond-level latency constraint, then distributed reliability at scale, then cross-platform integration at even greater scale.\n",
+        "approach": "Starting in Nice, France (2015-2018), I helped build a booking component in C++ under a ~2ms end-to-end budget, where individual operations had to run in microseconds - a problem of raw execution speed on a small, contained component. Moving to Bengaluru (2018-2021), I led a gateway event handler processing several hundred thousand messages/day over internal queues (C++/Python), where the problem shifted to reliability - designing retry and error-handling for a distributed system rather than optimizing one component. As Principal Engineer (2021-2022), the same class of problem returned at millions of messages/day, now spanning vendor systems and real-time booking traffic - I redesigned the messaging core around Kafka and extended it into Java alongside C++.\n",
+        "outcome": "Each stage was a different kind of engineering problem, not just a bigger version of the last: machine-level performance, then distributed-systems reliability, then cross-platform integration at scale - the same progression of thinking I later applied to banking core-systems.\n"
+      }
+    ]
+  },
+  "work_experience": [
+    {
+      "title": "System Engineer",
+      "company": "IBM Global Service India Pvt Ltd",
+      "location": "Bangalore, India",
+      "start_date": "2004",
+      "end_date": "2006",
+      "technologies": [
+        "Java",
+        "HTML"
+      ],
+      "responsibilities": [
+        "Early-career role building Java web applications and front-end features."
+      ]
+    },
+    {
+      "title": "Software Engineer",
+      "company": "Flat World Technologies",
+      "location": "Bangalore, India",
+      "start_date": "2007",
+      "end_date": "2007",
+      "technologies": [
+        "Java",
+        "J2EE",
+        "Servlets",
+        "JSP",
+        "Struts",
+        "Hibernate",
+        "MySQL"
+      ],
+      "responsibilities": [
+        "Full-stack Java/J2EE web application development."
+      ]
+    },
+    {
+      "title": "Senior Software Engineer",
+      "company": "Interwoven Software Solutions",
+      "location": "Bangalore, India",
+      "start_date": "2008",
+      "end_date": "2008",
+      "technologies": [
+        "Java",
+        "ExtJs"
+      ],
+      "responsibilities": [
+        "Java and ExtJs web application development."
+      ]
+    },
+    {
+      "title": "Senior Software Engineer",
+      "company": "Ness Global Services",
+      "location": "Bangalore, India",
+      "start_date": "2009",
+      "end_date": "2012",
+      "technologies": [
+        "Java",
+        "J2EE",
+        "Oracle",
+        "XML",
+        "REST",
+        "XQuery",
+        "XSLT"
+      ],
+      "responsibilities": [
+        "Backend Java/J2EE development for an airlines-domain product, including a client-facing onsite assignment in the US."
+      ]
+    },
+    {
+      "title": "Member Technical Staff",
+      "company": "Amadeus Software Labs India Private Ltd",
+      "location": "Bangalore, India",
+      "start_date": "2012",
+      "end_date": "2015",
+      "technologies": [
+        "Java",
+        "J2EE",
+        "JCP",
+        "Oracle",
+        "XML",
+        "REST"
+      ],
+      "responsibilities": [
+        "Backend product development on Amadeus's hotel IT platform, designed for scale across multiple customer segments."
+      ]
+    },
+    {
+      "title": "Software Development Engineer",
+      "company": "Amadeus sas",
+      "location": "Nice, France",
+      "start_date": "2015",
+      "end_date": "2018",
+      "technologies": [
+        "C++",
+        "OBE",
+        "LQS",
+        "GQS",
+        "Couchbase",
+        "ACS",
+        "XML",
+        "REST"
+      ],
+      "responsibilities": [
+        "International assignment in Nice, France - built a microsecond-latency C++ component of Amadeus's hotel IT platform under a strict ~2ms response budget."
+      ]
+    },
+    {
+      "title": "Senior Member of Technical Staff",
+      "company": "Amadeus Software Labs India Private Ltd",
+      "location": "Bengaluru, India",
+      "start_date": "2018",
+      "end_date": "2021",
+      "technologies": [
+        "Python",
+        "C++",
+        "Apache Kafka",
+        "OBE",
+        "LQS",
+        "GQS",
+        "Oracle",
+        "ACS",
+        "REST",
+        "Docker"
+      ],
+      "responsibilities": [
+        "Led a distributed gateway event handler spanning multiple hotel-IT platform components, reliably processing several hundred thousand messages/day (C++/Python)."
+      ]
+    },
+    {
+      "title": "Principal Engineer",
+      "company": "Amadeus Labs (Amadeus Software Labs India Private Ltd)",
+      "location": "Bengaluru, India",
+      "start_date": "2021",
+      "end_date": "2022",
+      "technologies": [
+        "Python",
+        "C++",
+        "Java",
+        "Apache Kafka",
+        "OBE",
+        "LQS",
+        "GQS",
+        "Oracle",
+        "ACS"
+      ],
+      "responsibilities": [
+        "As Principal Engineer, scaled the gateway event handler to millions of messages/day across vendor systems and real-time booking traffic (Java, C++, Kafka)."
+      ]
+    },
+    {
+      "title": "Lead Engineer",
+      "company": "Grab Greco LLP",
+      "location": "Bangalore, India",
+      "start_date": "2022",
+      "end_date": "2024",
+      "technologies": [
+        "Golang",
+        "Python",
+        "MySQL",
+        "Kubernetes",
+        "AWS"
+      ],
+      "responsibilities": [
+        "Lead engineer in Grab's digibank domain - core banking product design across Treasury, Deposits, and Digital Lending, plus bank-wide security/observability initiatives."
+      ]
+    },
+    {
+      "title": "Lead Engineer",
+      "company": "GRXST Software Pvt Ltd (GXS Bank)",
+      "location": "Bangalore, India",
+      "start_date": "2024",
+      "end_date": null,
+      "technologies": [
+        "Golang",
+        "MySQL",
+        "AWS (EKS, RDS, S3, ElastiCache, SQS)",
+        "Kafka/MSK",
+        "Prometheus",
+        "OpenSearch"
+      ],
+      "responsibilities": [
+        "Leading a ground-up rebuild of GXS Bank's Loan Channeling platform, including FinSync - an in-house core banking ledger now processing ~800K transactions/day."
+      ]
+    }
+  ],
+  "projects": {
+    "professional": [
+      {
+        "id": "hotel-it-latency-critical-platform",
+        "title": "Microsecond-Latency Booking Component (C++)",
+        "date_range": "2015",
+        "client_context": "Amadeus SAS, Nice, France - core hotel IT platform (international assignment)",
+        "description": "Part of the team that built a component of a core hotel IT system platform in C++ operating under a strict end-to-end response-time budget (~2ms), which meant individual operations inside it had to complete in microseconds, not milliseconds.",
+        "technologies": [
+          "C++",
+          "Couchbase",
+          "Amadeus internal messaging queues (OBE/LQS/GQS)",
+          "XML",
+          "REST",
+          "Git",
+          "Jenkins",
+          "Docker"
+        ]
+      },
+      {
+        "id": "hotel-it-event-handler-queues",
+        "title": "Reliable Distributed Event Handling (Internal Queues)",
+        "date_range": "2018",
+        "client_context": "Amadeus Software Labs India - hotel IT platform",
+        "description": "Moved from single-component performance work to owning a gateway event handler spanning multiple components of the hotel IT platform, processing several hundred thousand messages a day over Amadeus's custom internal queues (OBE/LQS/GQS).",
+        "technologies": [
+          "C++",
+          "Python",
+          "Amadeus internal messaging queues (OBE/LQS/GQS)",
+          "Oracle",
+          "REST",
+          "Docker"
+        ]
+      },
+      {
+        "id": "hotel-it-cross-platform-message-scaling",
+        "title": "Cross-Platform, Multi-Vendor Message Handling at Scale",
+        "date_range": "2021",
+        "client_context": "Amadeus Software Labs India - hotel IT platform, Principal Engineer",
+        "description": "As Principal Engineer, the same class of problem returned at a different order of magnitude: millions of messages a day, now also spanning integration with external vendor systems alongside real-time hotel booking traffic - a mix of internal and third-party event sources with different delivery guarantees.",
+        "technologies": [
+          "Java",
+          "C++",
+          "Apache Kafka",
+          "Amadeus internal messaging queues (OBE/LQS/GQS)",
+          "Oracle"
+        ]
+      },
+      {
+        "id": "treasury-microservice",
+        "title": "Treasury Microservice (Trading, Settlement & Maturity Handling)",
+        "date_range": "2022",
+        "client_context": "Digibank build-out for Superbank (Grab-backed digital bank, Indonesia) - all Grab-era projects were for this bank",
+        "description": "Designed and built, largely solo, a Treasury microservice component from the ground up for the bank's core banking platform.",
+        "technologies": [
+          "Golang",
+          "AWS"
+        ]
+      },
+      {
+        "id": "interservice-authn-authz-hardening",
+        "title": "Bank-wide Inter-Service Authentication & Authorization Hardening",
+        "date_range": "2023",
+        "client_context": "Digibank platform for SuperBank (Indonesia) - initiative spanned all backend microservice teams",
+        "description": "Authored and drove, as sole PIC, a bank-wide initiative to standardize authentication and authorization for inter-service (service-to-service) communication across the digibank platform's backend microservices, prompted by findings from an external security penetration test.",
+        "technologies": [
+          "Golang",
+          "Kubernetes",
+          "Istio/service mesh",
+          "mTLS",
+          "AWS"
+        ]
+      },
+      {
+        "id": "bankwide-observability-standards",
+        "title": "Bank-wide Observability Standards Definition",
+        "date_range": "2023",
+        "client_context": "Digibank platform for SuperBank (Indonesia) - initiative spanned all backend engineering streams",
+        "description": "Authored and drove, as sole PIC, a bank-wide baseline observability standard for the digibank platform, defining a common set of application and infrastructure metrics (based on the latency/traffic/errors/saturation model, plus stream-specific custom metrics) that all engineering streams were expected to define and monitor.",
+        "technologies": [
+          "Golang",
+          "Kubernetes/EKS",
+          "AWS CloudWatch",
+          "Kafka",
+          "Prometheus",
+          "Grafana",
+          "Istio/service mesh",
+          "StatsD"
+        ]
+      },
+      {
+        "id": "digi-lending-product-design",
+        "title": "Digi-Lending Product: Core Microservice Design & Auto-Repayment Feature",
+        "date_range": "2023",
+        "client_context": "Digibank platform for SuperBank (Indonesia)",
+        "description": "Led the low-level microservice design for a new Digi-Lending product on the digibank platform, including the detailed journaling/ledger design for this complex lending product, built on Thought Machine as the core banking engine with Golang microservices and MySQL.",
+        "technologies": [
+          "Golang",
+          "Thought Machine (core banking)",
+          "MySQL"
+        ]
+      },
+      {
+        "id": "deposits-account-lifecycle-scaling",
+        "title": "Deposits Account Lifecycle Scaling & Custom Retryable Kafka Stream",
+        "date_range": "2023",
+        "client_context": "Digibank platform for SuperBank (Indonesia), Deposits team",
+        "description": "Led an initiative in the Deposits team to scale the account lifecycle architecture ahead of a planned expansion beyond the existing CASA product to several new deposit products (pocket-style sub-accounts, fixed/time-deposit products).",
+        "technologies": [
+          "Golang",
+          "MySQL",
+          "Kafka",
+          "AWS SQS",
+          "Redis/Valkey",
+          "Thought Machine (core banking)"
+        ]
+      },
+      {
+        "id": "account-closure-workflow-redesign",
+        "title": "Account Closure Workflow Redesign (Reliability & EOD Balance Handling)",
+        "date_range": "2024",
+        "client_context": "Digibank platform for SuperBank (Indonesia), Deposits team",
+        "description": "Redesigned the account closure workflow on the Deposits service, which had been a major source of production incidents, along two dimensions.",
+        "technologies": [
+          "Golang",
+          "MySQL",
+          "Kafka",
+          "AWS SQS",
+          "Thought Machine (core banking)"
+        ]
+      },
+      {
+        "id": "loan-channeling-product-design",
+        "title": "Loan Channeling Rebuild: Microservice Architecture & Flow Design",
+        "date_range": "2024",
+        "client_context": "GXS Bank (post Grab->GXS entity transition) - SuperBank Indonesia digibank platform, Loan Channeling domain",
+        "description": "Initially set up the microservice architecture for a full rebuild of the bank's Loan Channeling system - a lending platform that connects institutional lenders with borrowers via partner intermediaries who handle fund distribution and collection.",
+        "technologies": [
+          "Golang",
+          "AWS (S3, RDS, ElastiCache/Redis, SFTP via Transfer Family)",
+          "Kafka",
+          "Prometheus",
+          "Snowflake (via internal datalake)"
+        ]
+      },
+      {
+        "id": "finsync-core-banking-component",
+        "title": "FinSync: In-House Core Banking / Ledger Platform",
+        "date_range": "2024",
+        "client_context": "GXS Bank (post Grab->GXS entity transition) - SuperBank Indonesia digibank platform, Loan Channeling domain",
+        "description": "Designed and implemented FinSync (plus its companion policy service), an in-house core banking / ledger platform functionally equivalent to the vendor core banking platform used for Deposits, built specifically to serve the Loan Channeling domain.",
+        "technologies": [
+          "Golang",
+          "AWS (EKS, RDS, SQS, ElastiCache/Redis)",
+          "MySQL",
+          "Kafka (managed/MSK)",
+          "Prometheus",
+          "OpenSearch"
+        ]
+      }
+    ],
+    "personal": [
+      {
+        "id": "nityanushtaana",
+        "title": "Nityanushtaana - Rig Sandhya & Nitya Puja",
+        "date_range": "ongoing",
+        "client_context": null,
+        "description": "Self-built and self-published pair of mobile/web apps helping users perform daily Vedic rituals: \"Rig Sandhya\" (a complete guide to Rigveda Sandhyavandana) and \"Nitya Puja\" (step-by-step procedures for daily deity worship).",
+        "technologies": [
+          "Flutter",
+          "Dart",
+          "Provider",
+          "GitHub Actions (CI/CD)",
+          "GitHub Pages",
+          "Google Play Console",
+          "React Native (legacy)"
+        ]
+      }
+    ],
+    "edu": [
+      {
+        "id": "mtech-fed-learning-kafka-blockchain",
+        "title": "Federated Learning with Kafka-ML-Blockchain for Smart Building Occupancy Prediction",
+        "date_range": null,
+        "client_context": null,
+        "description": "Extended Kafka-ML, an open-source federated learning (FL) platform, into a comprehensive framework for smart-building occupancy prediction.",
+        "technologies": [
+          "Python",
+          "Apache Kafka",
+          "Federated Learning",
+          "Blockchain",
+          "Kubernetes",
+          "YAML-driven config",
+          "Kafka-ML (open-source FL framework)"
+        ]
+      },
+      {
+        "id": "cds-capstone-twitter-sentiment-analysis",
+        "title": "Twitter (X) Sentiment Analysis Pipeline",
+        "date_range": null,
+        "client_context": null,
+        "description": "Capstone project for the IISc Computational Data Science program: an end-to-end data pipeline that scrapes live tweets from Twitter (now X), processes and cleans the raw text at scale, vectorizes it, and runs sentiment analysis to classify public sentiment on chosen topics/keywords.",
+        "technologies": [
+          "Python",
+          "Tweepy",
+          "PySpark",
+          "Delta Lake",
+          "NLTK",
+          "Pandas",
+          "NumPy",
+          "Streamlit"
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "categories": [
+      {
+        "name": "Programming Languages",
+        "skills": [
+          {
+            "name": "Java"
+          },
+          {
+            "name": "C++"
+          },
+          {
+            "name": "Python"
+          },
+          {
+            "name": "Golang"
+          },
+          {
+            "name": "Dart"
+          }
+        ]
+      },
+      {
+        "name": "Mobile / Cross-Platform App Development",
+        "skills": [
+          {
+            "name": "Flutter"
+          },
+          {
+            "name": "React Native"
+          },
+          {
+            "name": "Google Play Console / App Publishing"
+          }
+        ]
+      },
+      {
+        "name": "Web Technologies",
+        "skills": [
+          {
+            "name": "REST"
+          },
+          {
+            "name": "J2EE"
+          },
+          {
+            "name": "HTML5"
+          },
+          {
+            "name": "CSS"
+          }
+        ]
+      },
+      {
+        "name": "Data Modelling",
+        "skills": [
+          {
+            "name": "JSON"
+          },
+          {
+            "name": "XML"
+          },
+          {
+            "name": "XSLT"
+          }
+        ]
+      },
+      {
+        "name": "Data Management",
+        "skills": [
+          {
+            "name": "MySQL"
+          },
+          {
+            "name": "Oracle"
+          },
+          {
+            "name": "Couchbase"
+          },
+          {
+            "name": "DynamoDB"
+          },
+          {
+            "name": "Redis/Valkey"
+          },
+          {
+            "name": "Thought Machine (Core Banking Platform)"
+          }
+        ]
+      },
+      {
+        "name": "Message Broker / Streaming",
+        "skills": [
+          {
+            "name": "Apache Kafka"
+          },
+          {
+            "name": "Celery"
+          },
+          {
+            "name": "AWS SQS"
+          }
+        ]
+      },
+      {
+        "name": "High-Throughput / Latency-Critical Systems",
+        "skills": [
+          {
+            "name": "Microsecond-Latency C++ Engineering"
+          },
+          {
+            "name": "Custom Async Messaging Queue Design"
+          },
+          {
+            "name": "Retry / Error-Handling for High-Volume Event Pipelines"
+          },
+          {
+            "name": "Vendor System Integration at Scale"
+          }
+        ]
+      },
+      {
+        "name": "Big Data",
+        "skills": [
+          {
+            "name": "Apache Spark"
+          },
+          {
+            "name": "Databricks"
+          },
+          {
+            "name": "Delta Lake"
+          },
+          {
+            "name": "Big Data Analytics"
+          },
+          {
+            "name": "Big Data Security"
+          }
+        ]
+      },
+      {
+        "name": "Data Science / Machine Learning (Academic - M.Tech)",
+        "skills": [
+          {
+            "name": "Statistical Foundations / Hypothesis Testing"
+          },
+          {
+            "name": "Machine Learning (Principles & Practice)"
+          },
+          {
+            "name": "Neural Networks & Deep Learning"
+          },
+          {
+            "name": "NLP & LLMs"
+          },
+          {
+            "name": "MLOps"
+          },
+          {
+            "name": "Distributed Systems for Big Data"
+          },
+          {
+            "name": "Data Mining"
+          },
+          {
+            "name": "Data Visualization"
+          },
+          {
+            "name": "Federated Learning"
+          },
+          {
+            "name": "Blockchain for Trustworthy/Auditable ML"
+          }
+        ]
+      },
+      {
+        "name": "Data Science / Machine Learning (Academic - IISc PG Diploma in CDS)",
+        "skills": [
+          {
+            "name": "Sentiment Analysis / Text Classification"
+          },
+          {
+            "name": "Web Scraping (Tweepy / Twitter API)"
+          },
+          {
+            "name": "Data App Prototyping (Streamlit)"
+          },
+          {
+            "name": "Image Classification (CNN / MLP)"
+          },
+          {
+            "name": "Graph Neural Networks (GCN)"
+          },
+          {
+            "name": "Time-Series Analysis / Forecasting"
+          }
+        ]
+      },
+      {
+        "name": "Cloud & Infra / Tools",
+        "skills": [
+          {
+            "name": "Linux"
+          },
+          {
+            "name": "Git"
+          },
+          {
+            "name": "BitBucket"
+          },
+          {
+            "name": "ClearCase"
+          },
+          {
+            "name": "Docker"
+          },
+          {
+            "name": "Jenkins"
+          },
+          {
+            "name": "Kubernetes"
+          },
+          {
+            "name": "AWS"
+          },
+          {
+            "name": "Istio (Service Mesh)"
+          },
+          {
+            "name": "Prometheus"
+          },
+          {
+            "name": "Grafana"
+          },
+          {
+            "name": "Azure"
+          },
+          {
+            "name": "Workflow Engine"
+          },
+          {
+            "name": "OpenSearch"
+          },
+          {
+            "name": "Snowflake / Data Lake (query/integration)"
+          }
+        ]
+      },
+      {
+        "name": "Banking / FinTech Domain",
+        "skills": [
+          {
+            "name": "Core Banking Systems (Thought Machine)"
+          },
+          {
+            "name": "Ledger / Core Banking Platform Design"
+          },
+          {
+            "name": "High-Throughput Financial Data Integrity Patterns"
+          },
+          {
+            "name": "Digital Lending & Loan Channeling"
+          },
+          {
+            "name": "Deposits & Treasury Products"
+          }
+        ]
+      },
+      {
+        "name": "Methodology / Practices",
+        "skills": [
+          {
+            "name": "Scrum Master"
+          },
+          {
+            "name": "Agile Methodologies"
+          },
+          {
+            "name": "Clean Code"
+          }
+        ]
+      },
+      {
+        "name": "Topics of Interest",
+        "skills": [
+          {
+            "name": "NLP"
+          },
+          {
+            "name": "Deep Learning"
+          },
+          {
+            "name": "Containers"
+          },
+          {
+            "name": "Blockchain"
+          }
+        ]
+      }
+    ]
+  },
+  "education": [
+    {
+      "degree": "Bachelor of Engineering",
+      "field_of_study": "Electronics and Communication",
+      "institution": "BMS College of Engineering",
+      "start_date": "2000",
+      "end_date": "2004"
+    },
+    {
+      "degree": "Master of Science",
+      "field_of_study": "Communication Software and Networks",
+      "institution": "Nanyang Technological University",
+      "start_date": "2008",
+      "end_date": "2009"
+    },
+    {
+      "degree": "Post Graduate Diploma",
+      "field_of_study": "Advanced Program in Computational Data Science",
+      "institution": "Indian Institute of Science (IISc)",
+      "start_date": "2021",
+      "end_date": "2021"
+    },
+    {
+      "degree": "Master of Technology (M.Tech) - Working Professionals Program (weekend classes, Sat/Sun)",
+      "field_of_study": "Computer Science and Engineering with specialization in Big Data & Machine Learning",
+      "institution": "Indian Institute of Information Technology Kottayam (IIIT Kottayam)",
+      "start_date": "2023",
+      "end_date": "2026"
+    }
+  ],
+  "certifications": {
+    "certifications": [
+      {
+        "name": "AWS for Developers: DynamoDB",
+        "issuer": null,
+        "date": null
+      },
+      {
+        "name": "Practical GitHub Copilot",
+        "issuer": null,
+        "date": null
+      },
+      {
+        "name": "Blockchain: Beyond the Basics",
+        "issuer": null,
+        "date": null
+      },
+      {
+        "name": "Deep Learning",
+        "issuer": null,
+        "date": null
+      },
+      {
+        "name": "Building Event Driven and Microservices Architecture in Azure",
+        "issuer": null,
+        "date": null
+      }
+    ]
+  }
+}
