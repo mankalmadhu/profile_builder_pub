@@ -44,7 +44,7 @@
       },
       {
         "title": "Distributed Backend Systems Reliability",
-        "text": "I specialize in finding and eliminating systemic reliability gaps in event-driven, multi-service systems - particularly around asynchronous, vendor-originated events that don't fit neatly into existing retry or correlation patterns. I've done this for hotel-booking traffic and for banking core-systems alike.\n"
+        "text": "A recurring focus across my recent roles has been finding and eliminating systemic reliability gaps in event-driven, multi-service systems - particularly around asynchronous, vendor-originated events that don't fit neatly into existing retry or correlation patterns. I've done this for hotel-booking traffic and for banking core-systems alike.\n"
       },
       {
         "title": "Backend Platform & Product Architecture",
@@ -54,13 +54,13 @@
     "case_studies": [
       {
         "id": "finsync-ledger",
-        "title": "Building a Core Banking Ledger From Scratch (I Named It FinSync)",
+        "title": "Building a Core Banking Ledger From Scratch",
         "project_ids": [
           "finsync-core-banking-component"
         ],
         "problem": "GXS Bank's lending business needed a resilient, high-throughput ledger core. Extending the bank's existing vendor core banking platform - licensed primarily for deposit accounts - to also cover lending was cost-prohibitive for what the lending platform actually needed, making an in-house ledger the more viable path.\n",
         "approach": "I designed and built FinSync from scratch: a ledger platform that cleanly separates core ledger state (accounts, balance partitions, atomic posting-instruction batches) from product-specific business rules, which live in a companion policy service. The system is fully event-driven, using Kafka for account initialization and posting approvals, and relies on a set of data-integrity patterns I designed specifically for this scale: a serialized single-writer update pattern to eliminate lock contention, atomic multi-statement transactions, an outbox/relay pattern for reliable event publication, and partitioning message queues by loan product type to scale ingestion horizontally, backed by a resilience layer of context-aware blocking retries with dead-letter-queue fallback.\n",
-        "outcome": "FinSync now powers the entire rebuilt lending platform, processing ~800K transactions/day and projected to reach ~2M/day by Q4 2026, after a full migration of every partner off the legacy system.\n"
+        "outcome": "As of Q3 2026, FinSync powers the entire rebuilt lending platform, processing ~800K transactions/day, projected to reach ~2M/day by Q4 2026, after a full migration of every partner off the legacy system.\n"
       },
       {
         "id": "deposits-reliability",
@@ -267,7 +267,7 @@
         "OpenSearch"
       ],
       "responsibilities": [
-        "Leading a ground-up rebuild of GXS Bank's Loan Channeling platform, including FinSync - an in-house core banking ledger now processing ~800K transactions/day."
+        "Leading a ground-up rebuild of GXS Bank's Loan Channeling platform, including FinSync - an in-house core banking ledger processing ~800K transactions/day as of Q3 2026."
       ]
     }
   ],
@@ -421,7 +421,7 @@
         "title": "FinSync: In-House Core Banking / Ledger Platform",
         "date_range": "2024",
         "client_context": "GXS Bank (post Grab->GXS entity transition) - SuperBank Indonesia digital-bank platform, lending business",
-        "description": "Designed and implemented FinSync (plus its companion policy service), an in-house core banking / ledger platform functionally equivalent to the vendor core banking platform used for deposit accounts, built specifically to serve the lending business.",
+        "description": "Designed and implemented FinSync (plus its companion policy service), an in-house core banking / ledger platform functionally equivalent to the vendor core banking platform used for deposit accounts.",
         "technologies": [
           "Golang",
           "AWS (EKS, RDS, SQS, ElastiCache/Redis)",
