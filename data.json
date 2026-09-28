@@ -64,14 +64,14 @@
       },
       {
         "id": "deposits-reliability",
-        "title": "Making Bank Account Opening and Closing More Reliable",
+        "title": "Scaling a Bank's Deposit Platform: Rebuilding Account Lifecycle Workflows",
         "project_ids": [
           "deposits-account-lifecycle-scaling",
           "account-closure-workflow-redesign"
         ],
-        "problem": "As GXS Bank's deposit product line was set to expand beyond its core savings account product into pockets and time-deposit products, account creation on the deposits core microservice was synchronous even though the underlying core banking platform's account and plan entities were asynchronous - a mismatch already generating incidents that would only get worse as more products launched. Account closures were a further source of repeated incidents: the core banking platform emitted multiple asynchronous closure events for the same request without consistent context, and closures would intermittently fail during end-of-day batch processing due to stale interest-accrual balances.\n",
-        "approach": "I helped the team introduce a process-orchestration tool, already proven at sister digital banks, to bridge the sync/async gap in account creation - then went further: the existing internal retry library only worked with internal DTOs, so I designed and built a retry engine library that works with third-party vendor DTOs from the core banking platform, with configurable retries. For closures, I redesigned the workflow around Kafka and SQS to reliably correlate and retry the same closure request across multiple uncorrelated vendor events, and added a delayed-closure mechanism that parks closure requests on a queue during the end-of-day processing window to avoid transient balance-timing failures.\n",
-        "outcome": "Both initiatives were first-of-their-kind across all three sister digital banks at the time, and together brought production incidents from account creation and closures down close to zero - foundational reliability work that let the deposits platform scale to new products with confidence.\n"
+        "problem": "GXS Bank's deposit product line was set to scale beyond its core savings-account product into pockets and time-deposit products, but the account lifecycle underneath it couldn't scale with it. Account creation on the deposits core microservice was built as a synchronous call, even though the underlying core banking platform's account and plan entities were asynchronous - a mismatch that was already generating incidents and would only get worse as more products launched on top of it. Account closures had the same problem from a different angle: the core banking platform emitted multiple asynchronous closure events for the same request without consistent context to correlate them, and closures would intermittently fail during end-of-day batch processing due to stale interest-accrual balances. Neither gap could be safely scaled past without first being fixed.\n",
+        "approach": "I rebuilt both halves of the account lifecycle so the platform could scale to new products without carrying its incident rate with it. For account creation, I helped the team introduce a process-orchestration tool, already proven at sister digital banks, to bridge the sync/async gap - then went further: the existing internal retry library only worked with internal DTOs, so I designed and built a retry engine library that works with third-party vendor DTOs from the core banking platform, with configurable retries. For closures, I redesigned the workflow around Kafka and SQS to reliably correlate and retry the same closure request across multiple uncorrelated vendor events, and added a delayed-closure mechanism that parks closure requests on a queue during the end-of-day processing window to avoid transient balance-timing failures.\n",
+        "outcome": "Both initiatives were first-of-their-kind across all three sister digital banks at the time. Together, they took the deposits account lifecycle from a synchronous, incident-prone bottleneck to a foundation that scales cleanly across product types - production incidents from account creation and closures came down close to zero, and the platform could take on new deposit products with confidence.\n"
       },
       {
         "id": "amadeus-evolution",
@@ -378,7 +378,7 @@
         "title": "Deposits Account Lifecycle Scaling & Custom Retryable Kafka Stream",
         "date_range": "2023",
         "client_context": "Digital-bank platform for SuperBank (Indonesia), Deposits team",
-        "description": "Led an initiative in the Deposits team to scale the account lifecycle architecture ahead of a planned expansion beyond the existing savings-account product to several new deposit products (pocket-style sub-accounts, fixed/time-deposit products).",
+        "description": "The deposits product line's ability to scale beyond its existing savings-account product to several new deposit products (pocket-style sub-accounts, fixed/time-deposit products) was blocked by how account creation worked: it was a synchronous call on the Deposits core microservice, while the corresponding entities (account, plan, etc.) on the core banking platform (Thought Machine) were asynchronous - a gap that was already generating production incidents and would only get worse under new products.",
         "technologies": [
           "Golang",
           "MySQL",
@@ -393,7 +393,7 @@
         "title": "Account Closure Workflow Redesign (Reliability & End-of-Day Balance Handling)",
         "date_range": "2024",
         "client_context": "Digital-bank platform for SuperBank (Indonesia), Deposits team",
-        "description": "Redesigned the account closure workflow on the Deposits service, which had been a major source of production incidents, along two dimensions.",
+        "description": "As part of the same effort to make the deposits account lifecycle scale reliably, redesigned the account closure workflow on the Deposits service, which had been a major source of production incidents, along two dimensions.",
         "technologies": [
           "Golang",
           "MySQL",
